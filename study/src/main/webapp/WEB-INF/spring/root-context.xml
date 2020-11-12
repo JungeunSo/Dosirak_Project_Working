@@ -15,7 +15,7 @@
 		
 		 <!-- MySQL dataSource -->
 
-    <!-- 자신의 PC(로컬)에 MySql을 설치했을 경우 -->
+    <!-- MySQL
     <bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
@@ -24,7 +24,16 @@
         </property>
         <property name="username" value="root"></property>
         <property name="password" value="1234"></property>
-    </bean>        
+    </bean>         -->
+    
+        <!-- MariaDB -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="org.mariadb.jdbc.Driver"/>
+        <property name="url" value="jdbc:mariadb://localhost:3306/dosirak?serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=false"></property>
+        <property name="username" value="root"/>
+        <property name="password" value="asdfg12!@"/>
+    </bean>
+
 
    <!-- Mybatis 연동 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -40,5 +49,6 @@
 <!-- scan -->
     <context:component-scan base-package="kr.co.service"></context:component-scan>
     <context:component-scan base-package="kr.co.dao"></context:component-scan>
+
     
 </beans>

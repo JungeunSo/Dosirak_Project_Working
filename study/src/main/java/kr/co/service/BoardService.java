@@ -2,6 +2,7 @@ package kr.co.service;
 
 import kr.co.vo.BoardVO;
 import kr.co.vo.Criteria;
+import kr.co.vo.SearchCriteria;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ public interface BoardService {
 	// 게시글 작성
 	public void write(BoardVO boardVO) throws Exception;
 	
-	public List<BoardVO> list(Criteria cri) throws Exception;
+	public List<BoardVO> list(SearchCriteria scri) throws Exception;
 	
-	public int listCount() throws Exception;
+	public int listCount(SearchCriteria scri) throws Exception;
 	
 	public BoardVO read(int bno) throws Exception;// 게시물 목록 조회
 	
