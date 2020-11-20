@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -92,10 +93,13 @@ public class BoardController {
 	    public String boardEdit(HttpServletRequest request, @RequestParam Map<String, Object> paramMap, Model model) {
 	 
 	    	System.out.println("Edit");
+	    	HttpSession httpSession = request.getSession();
 	    	
 	        //Referer 검사
 	        String Referer = request.getHeader("referer");
+	        model.addAttribute("LOGIN", httpSession.getAttribute("LOGIN"));
 	 
+	        
 	        if(Referer!=null){//URL로 직접 접근 불가
 	            if(paramMap.get("id") != null){ //게시글 수정
 	                if(Referer.indexOf("/board/view")>-1){

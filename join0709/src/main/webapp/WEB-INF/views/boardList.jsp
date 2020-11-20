@@ -70,6 +70,9 @@
                     location.href = "view?id="+$(this).attr("content_id");
                      
                 });
+
+                //세션 주고받아서 로그인 된 사람만 글 쓰게 하기
+                
                  
                 $("#write").click(function(){
                     location.href = "edit";
