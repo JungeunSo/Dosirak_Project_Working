@@ -9,8 +9,12 @@
 
 
 <script type="text/javascript">
-$(function (){
-$(".login-form").validate({
+
+
+$(document).ready(function(){
+	
+	
+	$(".login-form").validate({
 	  rules: {
 	    username: {
 	      required: true,
@@ -38,6 +42,8 @@ $(".login-form").validate({
 	    }
 	  }
 	});
+
+
 });
 </script>
 

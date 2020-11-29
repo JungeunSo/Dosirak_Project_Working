@@ -12,8 +12,7 @@
                 //--페이지 셋팅
                 var totalPage = ${totalPage}; //전체 페이지
                 var startPage = ${startPage}; //현재 페이지
-                
-                alert(totalPage);
+
                 
                 var pagination = "";
                  
@@ -23,7 +22,9 @@
                  
                 if((startPage-5) < 1){
                     forStart = 1;
-                }else{
+                }
+                
+                else{
                     forStart = startPage-5;
                 }
                  
@@ -31,11 +32,15 @@
                      
                     if(totalPage>9){
                         forEnd = 10;
-                    }else{
+                    }
+                    
+                    else{
                         forEnd = totalPage;
                     }
                      
-                }else{
+                }
+                
+                else{
                      
                     if((startPage+4) > totalPage){
                          
@@ -45,7 +50,9 @@
                             forStart = forEnd-9
                         }
                          
-                    }else{
+                    }
+                    
+                    else{
                         forEnd = startPage+4;
                     }
                 }
@@ -55,7 +62,8 @@
                 for(var i = forStart ; i<= forEnd ; i++){
                     if(startPage == i){
                         pagination += ' <button name="page_move" start_page="'+i+'" disabled>'+i+'</button>';
-                    }else{
+                    }
+                    else{
                         pagination += ' <button name="page_move" start_page="'+i+'" style="cursor:pointer;" >'+i+'</button>';
                     }
                 }
@@ -88,6 +96,17 @@
                     $("#frmSearch").submit();
                      
                 });
+                
+            	$(document).on('click', '#btnSearch', function(e){
+            		e.preventDefault();
+            		var url = "${pageContext.request.contextPath}/board/getBoardList";
+            		url = url + "?searchType=" + $('#searchType').val();
+            		url = url + "&keyword=" + $('#keyword').val();
+            		location.href = url;
+            		console.log(url);
+            	});	
+
+
                  
             });
         </script>
@@ -153,5 +172,39 @@
                 <div id="pagination"></div>
             </div>
         </form>
+     
+<!-- search{s} -->
+
+		<div class="form-group row justify-content-center">
+
+			<div class="w100" style="padding-right:10px">
+
+				<select class="form-control form-control-sm" name="searchType" id="searchType">
+
+					<option value="title">제목</option>
+
+					<option value="Content">본문</option>
+
+					<option value="reg_id">작성자</option>
+
+				</select>
+
+			</div>
+
+			<div class="w300" style="padding-right:10px">
+
+				<input type="text" class="form-control form-control-sm" name="keyword" id="keyword">
+
+			</div>
+
+			<div>
+
+				<button class="btn btn-sm btn-primary" name="btnSearch" id="btnSearch">검색</button>
+
+			</div>
+
+		</div>
+
+
     </body>
 </html>

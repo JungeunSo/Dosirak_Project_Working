@@ -35,8 +35,12 @@ public class BoardController {
 	 
 	    //게시글 리스트 조회
 	    @RequestMapping(value = "list")
-	    public String boardList(@RequestParam Map<String, Object> paramMap, Model model) {
+	    public String boardList(@RequestParam Map<String, Object> paramMap, Model model, HttpServletRequest request) {
 	 
+	    	
+	    	HttpSession httpSession = request.getSession();
+	    	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));
+	    	
 	        //조회 하려는 페이지
 	        int startPage = (paramMap.get("startPage")!=null?Integer.parseInt(paramMap.get("startPage").toString()):1);
 	        //한페이지에 보여줄 리스트 수;'
@@ -64,8 +68,6 @@ public class BoardController {
 	        //MYSQL
 	        paramMap.put("end", visiblePages);
 	 
-	        //ORACLE
-//	        paramMap.put("end", startLimitPage+visiblePages);
 	 
 	        //jsp 에서 보여줄 정보 추출
 	        model.addAttribute("startPage", startPage+"");//현재 페이지      
@@ -101,23 +103,34 @@ public class BoardController {
 	 
 	        
 	        if(Referer!=null){//URL로 직접 접근 불가
+	        	
 	            if(paramMap.get("id") != null){ //게시글 수정
 	                if(Referer.indexOf("/board/view")>-1){
 	 
 	                    //정보를 가져온다.
 	                    model.addAttribute("boardView", boardService.getContentView(paramMap));
 	                    return "boardEdit";
-	                }else{
+	                }
+	                
+	                else {
 	                    return "redirect:/board/list";
 	                }
-	            }else{ //게시글 등록
-	                if(Referer.indexOf("/board/list")>-1){
-	                    return "boardEdit";
-	                }else{
-	                    return "redirect:/board/list";
-	                }
+	                
 	            }
-	        }else{
+	            
+	            else { //게시글 등록
+	                
+	            	if(Referer.indexOf("/board/list")>-1) {
+	                    return "boardEdit";
+	                }
+	            	
+	            	else {
+	                    return "redirect:/board/list";
+                	}
+	            }
+	        }
+	        
+	        else {
 	            return "redirect:/board/list";
 	        }
 	 

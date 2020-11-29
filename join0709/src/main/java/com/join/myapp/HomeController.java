@@ -37,12 +37,24 @@ public class HomeController {
 	 */
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
+	public String home(Locale locale, Model model, HttpServletRequest request) {
 		
-		return "login";
+    	HttpSession httpSession = request.getSession();
+		
+    	logger.info("Welcome home! The client locale is {}.", locale);
+		System.out.println(httpSession.getAttribute("LOGIN"));
+		
+		if(httpSession.getAttribute("LOGIN") != null)
+		{
+			return "loginTest";
+		}
+		
+		else
+		{
+			return "login";
+		}
 	}
-	
+	 
 	@RequestMapping(value = "/emailCheck", method = RequestMethod.POST)
 	@ResponseBody
 	public int postEmailCheck(HttpServletRequest req) throws Exception {
@@ -89,7 +101,7 @@ public class HomeController {
 		
 		
 		
-		return "home";
+		return "home"; 
 	}
 	
 	@RequestMapping(value = "/loginCheck", method = RequestMethod.POST)
@@ -100,16 +112,33 @@ public class HomeController {
 		System.out.println(uv.getUsername());
 		System.out.println(uv.getPassword());
 		System.out.println(uv.getEmail());
+		
 		if(us.loginCheck(uv) == 0) {
 			System.out.println("올바른 이름과 암호가 아닙니다.");
-			return "login";}
+			return "login";
+		}
 		
 		else
 			httpSession.setAttribute("LOGIN", uv);
 		 	model.addAttribute("LOGIN", httpSession.getAttribute("LOGIN"));
 			System.out.println("환영합니다.");
+			
 		return "loginTest";
 	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public String logout(UserVO uv, HttpServletRequest request, Model model) throws Exception
+	{
+		HttpSession httpSession = request.getSession();
+		
+
+		httpSession.invalidate();
+		System.out.println("로그아웃 되었습니다.");
+		
+		return "login";
+	}
+	
+	
 	
 	
 }

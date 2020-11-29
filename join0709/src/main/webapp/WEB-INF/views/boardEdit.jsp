@@ -45,19 +45,14 @@
                         $("#subject").focus();
                         return false;
                     }
-                     
-                    if($("#writer").val().trim() == ""){
-                        alert("작성자를 입력하세요.");
-                        $("#writer").focus();
-                        return false;
-                    }
-                     
+                    
                     if($("#password").val().trim() == ""){
                         alert("비밀번호를 입력하세요.");
                         $("#password").focus();
                         return false;
                     }
-                     
+
+                   
                     //값 셋팅
                     var objParams = {
                             <c:if test="${boardView.id != null}"> //있으면 수정 없으면 등록
@@ -68,6 +63,7 @@
                             password    : $("#password").val(),
                             content     : content
                     };
+
                      
                     //ajax 호출
                     $.ajax({
@@ -106,8 +102,8 @@
                 <tr>
                     <td>
                         제목: <input type="text" id="subject" name="subject" style="width:600px;" placeholder="제목" value="${boardView.subject}"/>
-                         작성한 사람:<input class="form-control" id="writer" name="writer" value="${login.userId}" readonly>
-                        비밀번호: <input type="password" id="password" name="password" style="width:170px;" maxlength="10" placeholder="패스워드"/>
+                         <!--  -->작성한 사람:<input class="form-control" id="writer" name="writer" value="${login.userId}" readonly>
+                        <!-- 비밀번호: <input type="password" id="password" name="password" style="width:170px;" maxlength="10" placeholder="패스워드"/> -->
                         <button id="save" name="save">저장</button>                           
                     </td>
                 </tr>
