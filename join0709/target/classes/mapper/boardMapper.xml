@@ -8,15 +8,14 @@
         insert into board(
             subject,
             content,
-            writer,
-            password
+            writer
         )values(
             #{subject},
             #{content},
-            #{writer},
-            #{password}
+            #{writer}
         )
     </insert>
+    
     <insert id="updateContent" parameterType="java.util.HashMap">
         update
             board
@@ -28,12 +27,14 @@
         where
             id = #{id}
     </insert>
+    
     <select id="selectContentCnt" resultType="int" parameterType="java.util.HashMap">
         select
             count(id)
         from
             board
     </select>
+    
     <select id="selectContent" resultType="com.join.dto.Board" parameterType="java.util.HashMap">
         select
             id,
@@ -46,6 +47,7 @@
         order by id desc
         limit #{start}, #{end}
     </select>
+    
     <select id="selectContentView" resultType="com.join.dto.Board" parameterType="java.util.HashMap">
         select
             id,
@@ -58,23 +60,25 @@
         where
             id = #{id}
     </select>
+    
     <insert id="insertBoardReply" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="reply_id">
         insert into board_reply(
             board_id,
             parent_id,
             depth,
             reply_content,
-            reply_writer,
-            reply_password
-        )values(
+            reply_writer
+        )
+        
+        values(
             #{board_id},
             #{parent_id},
             #{depth},
             #{reply_content},
-            #{reply_writer},
-            #{reply_password}
+            #{reply_writer}
         )
     </insert>
+    
     <select id="selectBoardReplyList" resultType="com.join.dto.BoardReply" parameterType="java.util.HashMap">
         select
             reply_id,
@@ -82,22 +86,23 @@
             parent_id,
             depth,
             reply_content,
-            reply_writer,
-            reply_password
+            reply_writer
         from
             board_reply
         where
             board_id = #{id}
         order by reply_id asc
     </select>
+    
     <delete id="deleteBoardReply" parameterType="java.util.HashMap">
         delete
         from
             board_reply
         where
             reply_id = #{reply_id}
-            and reply_password = #{reply_password}
+
     </delete>
+    
     <delete id="deleteBoardReplyAll" parameterType="java.util.HashMap">
         delete
         from
@@ -112,8 +117,7 @@
                 from
                     board_reply
                 where
-                    reply_id = #{reply_id}
-                    and reply_password = #{reply_password}) a
+                    reply_id = #{reply_id}) a
             ) or parent_id in (
                 select
                     reply_id
@@ -123,10 +127,10 @@
                 from
                     board_reply
                 where
-                    reply_id = #{reply_id}
-                    and reply_password = #{reply_password}) a
+                    reply_id = #{reply_id}) a
             )
     </delete>
+    
     <select id="selectBoardCnt" resultType="int" parameterType="java.util.HashMap">
         select
             count(id)
@@ -134,16 +138,16 @@
             board
         where
             id = #{id}
-            and password = #{password}
     </select>
+    
     <delete id="deleteBoard" parameterType="java.util.HashMap">
         delete
         from
             board
         where
             id = #{id}
-            and password = #{password}
     </delete>
+    
     <select id="selectReplyPassword" resultType="int" parameterType="java.util.HashMap">
         select
             count(*)
@@ -151,8 +155,8 @@
             board_reply
         where
             reply_id = #{reply_id}
-            and reply_password = #{reply_password}
     </select>
+    
     <update id="updateReply" parameterType="java.util.HashMap">
         update
             board_reply
@@ -160,8 +164,7 @@
             parent_id = #{parent_id},
             depth = #{depth},
             reply_content = #{reply_content},
-            reply_writer = #{reply_writer},
-            reply_password = #{reply_password}
+            reply_writer = #{reply_writer}
         where
             reply_id = #{reply_id}
     </update>

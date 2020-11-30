@@ -81,8 +81,10 @@ public class BoardController {
 	 
 	    //게시글 상세 보기
 	    @RequestMapping(value = "view")
-	    public String boardView(@RequestParam Map<String, Object> paramMap, Model model) {
+	    public String boardView(@RequestParam Map<String, Object> paramMap, Model model, HttpServletRequest request) {
 	 
+	    	HttpSession httpSession = request.getSession();
+	    	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));
 	        model.addAttribute("replyList", boardService.getReplyList(paramMap));
 	        model.addAttribute("boardView", boardService.getContentView(paramMap));
 	 
@@ -115,8 +117,8 @@ public class BoardController {
 	                else {
 	                    return "redirect:/board/list";
 	                }
-	                
 	            }
+
 	            
 	            else { //게시글 등록
 	                
@@ -136,6 +138,9 @@ public class BoardController {
 	 
 	    }
 	 
+	    
+	    
+	    
 	    //AJAX 호출 (게시글 등록, 수정)
 	    @RequestMapping(value="save", method=RequestMethod.POST)
 	    @ResponseBody
@@ -145,25 +150,33 @@ public class BoardController {
 	        Map<String, Object> retVal = new HashMap<String, Object>();
 	 
 	        //패스워드 암호화
-	        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-	        String password = encoder.encodePassword(paramMap.get("password").toString(), null);
-	        paramMap.put("password", password);
+//	        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+//	        String password = encoder.encodePassword(paramMap.get("password").toString(), null);
+//	        paramMap.put("password", password);
 	 
 	        //정보입력
 	        int result = boardService.regContent(paramMap);
 	 
-	        if(result>0){
-	            retVal.put("code", "OK");
+	        if(result > 0) {
+	        
+	        	retVal.put("code", "OK");
 	            retVal.put("message", "등록에 성공 하였습니다.");
-	        }else{
-	            retVal.put("code", "FAIL");
+	        }
+	        
+	        else {
+	            
+	        	retVal.put("code", "FAIL");
 	            retVal.put("message", "등록에 실패 하였습니다.");
 	        }
 	 
 	        return retVal;
-	 
+	
 	    }
 	 
+	    
+	    
+	    
+	    
 	    //AJAX 호출 (게시글 삭제)
 	    @RequestMapping(value="del", method=RequestMethod.POST)
 	    @ResponseBody
@@ -172,10 +185,6 @@ public class BoardController {
 	        //리턴값
 	        Map<String, Object> retVal = new HashMap<String, Object>();
 	 
-	        //패스워드 암호화
-	        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-	        String password = encoder.encodePassword(paramMap.get("password").toString(), null);
-	        paramMap.put("password", password);
 	 
 	        //정보입력
 	        int result = boardService.delBoard(paramMap);
@@ -200,16 +209,17 @@ public class BoardController {
 	        Map<String, Object> retVal = new HashMap<String, Object>();
 	 
 	        //패스워드 암호화
-	        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-	        String password = encoder.encodePassword(paramMap.get("password").toString(), null);
-	        paramMap.put("password", password);
+//	        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+//	        String password = encoder.encodePassword(paramMap.get("password").toString(), null);
+//	        paramMap.put("password", password);
 	 
 	        //정보입력
 	        int result = boardService.getBoardCheck(paramMap);
 	 
 	        if(result>0){
 	            retVal.put("code", "OK");
-	        }else{
+	        }
+	        else{
 	            retVal.put("code", "FAIL");
 	            retVal.put("message", "패스워드를 확인해주세요.");
 	        }
@@ -226,10 +236,10 @@ public class BoardController {
 	        //리턴값
 	        Map<String, Object> retVal = new HashMap<String, Object>();
 	 
-	        //패스워드 암호화
-	        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-	        String password = encoder.encodePassword(paramMap.get("reply_password").toString(), null);
-	        paramMap.put("reply_password", password);
+//	        //패스워드 암호화
+//	        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+//	        String password = encoder.encodePassword(paramMap.get("reply_password").toString(), null);
+//	        paramMap.put("reply_password", password);
 	 
 	        //정보입력
 	        int result = boardService.regReply(paramMap);
@@ -283,10 +293,6 @@ public class BoardController {
 	        //리턴값
 	        Map<String, Object> retVal = new HashMap<String, Object>();
 	 
-	        //패스워드 암호화
-	        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-	        String password = encoder.encodePassword(paramMap.get("reply_password").toString(), null);
-	        paramMap.put("reply_password", password);
 	 
 	        //정보입력
 	        boolean check = boardService.checkReply(paramMap);
@@ -312,10 +318,6 @@ public class BoardController {
 	        //리턴값
 	        Map<String, Object> retVal = new HashMap<String, Object>();
 	 
-	        //패스워드 암호화
-	        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-	        String password = encoder.encodePassword(paramMap.get("reply_password").toString(), null);
-	        paramMap.put("reply_password", password);
 	 
 	        System.out.println(paramMap);
 	 

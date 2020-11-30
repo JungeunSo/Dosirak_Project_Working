@@ -14,9 +14,7 @@
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
-
-            	
-                
+    
                 var status = false; //수정과 대댓글을 동시에 적용 못하도록
 
 
@@ -28,19 +26,13 @@
                 //댓글 저장
                 $("#reply_save").click(function(){
                     
+                	// 로그인 이용 체크 
+                	if($("#session_id").val() == "") {
+                		alert("로그인 후 이용해주세요.");
+                		return false;
+                	}
                     //널 검사, 공백 제거 포함
-                    if($("#reply_writer").val().trim() == ""){
-                        alert("이름을 입력하세요.");
-                        $("#reply_writer").focus();
-                        return false;
-                    }
-                    
-                    if($("#reply_password").val().trim() == ""){
-                        alert("패스워드를 입력하세요.");
-                        $("#reply_password").focus();
-                        return false;
-                    }
-                    
+ 
                     if($("#reply_content").val().trim() == ""){
                         alert("내용을 입력하세요.");
                         $("#reply_content").focus();
@@ -55,7 +47,6 @@
                             parent_id        : "0",    
                             depth            : "0",
                             reply_writer    : $("#reply_writer").val(),
-                            reply_password    : $("#reply_password").val(),
                             reply_content    : reply_content
                     };
                     
@@ -193,19 +184,19 @@
                     var reply_id = $(this).attr("reply_id");
                     var parent_id = $(this).attr("parent_id");
                     var r_type = $(this).attr("r_type");
-                    var reply_password = "reply_password_"+reply_id;
-                     
-                    if($("#"+reply_password).val().trim() == ""){
-                        alert("패스워드을 입력하세요.");
-                        $("#"+reply_password).focus();
+                    var session_id = $("#session_id").val();
+                    var reply_writer = $("#reply_writer").val();
+               
+                   
+                    if(session_id != reply_writer){
+                        alert("작성자가 다릅니다.");                        
                         return false;
                     }
                      
                     //패스워드와 아이디를 넘겨 패스워드 확인
                     //값 셋팅
                     var objParams = {
-                            reply_password  : $("#"+reply_password).val(),
-                            reply_id        : reply_id
+                            reply_id : reply_id
                     };
                      
                     //ajax 호출
@@ -357,11 +348,6 @@
                         return false;
                     }
                      
-                    if($("#reply_modify_password_"+reply_id).val().trim() == ""){
-                        alert("패스워드를 입력하세요.");
-                        $("#reply_modify_password_"+reply_id).focus();
-                        return false;
-                    }
                      
                     if($("#reply_modify_content_"+reply_id).val().trim() == ""){
                         alert("내용을 입력하세요.");
@@ -391,7 +377,6 @@
                             parent_id       : parent_id, 
                             depth           : depth,
                             reply_writer    : $("#reply_modify_writer_"+reply_id).val(),
-                            reply_password  : $("#reply_modify_password_"+reply_id).val(),
                             reply_content   : reply_content
                     };
  
@@ -437,7 +422,9 @@
                             '       <button name="reply_del" r_type = "main" reply_id = "'+reply_id+'">삭제</button>      '+
                             '   </td>'+
                             '</tr>';
-                    }else{
+                    }
+                    
+                    else{
                         reply = 
                             '<tr reply_type="sub">'+
                             '   <td width="820px"> → '+
@@ -482,6 +469,8 @@
                     var reply_id = $(this).attr("reply_id");
                     var last_check = false;//마지막 tr 체크
                     
+
+                    
                     //입력받는 창 등록
                      var replyEditor = 
                         '<tr id="reply_add" class="reply_reply">'+
@@ -489,7 +478,7 @@
                         '        <textarea name="reply_reply_content" rows="3" cols="50"></textarea>'+
                         '    </td>'+
                         '    <td width="100px">'+
-                        '        <input type="text" name="reply_reply_writer" style="width:100%;" maxlength="10" placeholder="작성자"/>'+
+                        ' 		 <input id="reply_reply_writer" name="reply_reply_writer" style="width:100%;" maxlength="10"  value="${LOGIN.username}" readonly />' +
                         '    </td>'+
                         '    <td width="100px">'+
                         '        <input type="password" name="reply_reply_password" style="width:100%;" maxlength="10" placeholder="패스워드"/>'+
@@ -530,23 +519,17 @@
                 //대댓글 등록
                 $(document).on("click","button[name='reply_reply_save']",function(){
                                         
-                    var reply_reply_writer = $("input[name='reply_reply_writer']");
-                    var reply_reply_password = $("input[name='reply_reply_password']");
+                    var reply_reply_writer = $("session_id");
                     var reply_reply_content = $("textarea[name='reply_reply_content']");
                     var reply_reply_content_val = reply_reply_content.val().replace("\n", "<br>"); //개행처리
                     
-                    //널 검사
-                    if(reply_reply_writer.val().trim() == ""){
-                        alert("이름을 입력하세요.");
-                        reply_reply_writer.focus();
-                        return false;
-                    }
+
+                	// 로그인 이용 체크 
+                	if($("#session_id").val() == "") {
+                		alert("로그인 후 이용해주세요.");
+                		return false;
+                	}
                     
-                    if(reply_reply_password.val().trim() == ""){
-                        alert("패스워드를 입력하세요.");
-                        reply_reply_password.focus();
-                        return false;
-                    }
                     
                     if(reply_reply_content.val().trim() == ""){
                         alert("내용을 입력하세요.");
@@ -559,8 +542,7 @@
                             board_id        : $("#board_id").val(),
                             parent_id        : $(this).attr("parent_id"),    
                             depth            : "1",
-                            reply_writer    : reply_reply_writer.val(),
-                            reply_password    : reply_reply_password.val(),
+                            reply_writer    : reply_reply_writer,
                             reply_content    : reply_reply_content_val
                     };
                     
@@ -576,13 +558,15 @@
                         async        :     false, //동기: false, 비동기: ture
                         data        :    objParams,
                         success     :    function(retVal){
- 
-                            if(retVal.code != "OK") {
+                        	
+                            	if(retVal.code != "OK") {
                                 alert(retVal.message);
-                            }else{
-                                reply_id = retVal.reply_id;
-                                parent_id = retVal.parent_id;
-                            }
+                           		}
+                            
+	                            else {
+	                                reply_id = retVal.reply_id;
+	                                parent_id = retVal.parent_id;
+	                            }
                             
                         },
                         error        :    function(request, status, error){
@@ -596,7 +580,7 @@
                         reply_reply_content_val+
                         '    </td>'+
                         '    <td width="100px">'+
-                        reply_reply_writer.val()+
+                        reply_reply_writer +
                         '    </td>'+
                         '    <td width="100px">'+
                         '        <input type="password" id="reply_password_'+reply_id+'" style="width:100px;" maxlength="10" placeholder="패스워드"/>'+
@@ -617,6 +601,10 @@
                     
                 });
                 
+                
+                
+               
+                
                 //대댓글 입력창 취소
                 $(document).on("click","button[name='reply_reply_cancel']",function(){
                     $("#reply_add").remove();
@@ -627,11 +615,12 @@
                 //글수정
                 $("#modify").click(function(){
                     
-                    var password = $("input[name='password']");
-                    
-                    if(password.val().trim() == ""){
-                        alert("패스워드를 입력하세요.");
-                        password.focus();
+                    var session_id = $("#session_id").val();
+                    var board_writer = $("#board_writer").val();
+               
+                   
+                    if(session_id != board_writer){
+                        alert("작성자가 다릅니다.");                        
                         return false;
                     }
                                         
@@ -639,7 +628,6 @@
                     //값 셋팅
                     var objParams = {
                             id         : $("#board_id").val(),    
-                            password : $("#password").val()
                     };
                                         
                     //ajax 호출
@@ -650,11 +638,15 @@
                         type         :    "post",
                         async        :     false, //동기: false, 비동기: ture
                         data        :    objParams,
-                        success     :    function(retVal){
+                        success     :    
+                        	
+                        	function(retVal){
  
-                            if(retVal.code != "OK") {
+                            if (retVal.code != "OK") {
                                 alert(retVal.message);
-                            }else{
+                            }
+                            
+                            else {
                                 location.href = "edit?id="+$("#board_id").val();
                             }
                             
@@ -669,11 +661,12 @@
                 //글 삭제
                 $("#delete").click(function(){
                     
-                    var password = $("input[name='password']");
-                    
-                    if(password.val().trim() == ""){
-                        alert("패스워드를 입력하세요.");
-                        password.focus();
+                    var session_id = $("#session_id").val();
+                    var board_writer = $("#board_writer").val();
+               
+                   
+                    if(session_id != board_writer){
+                        alert("작성자가 다릅니다.");                        
                         return false;
                     }
                     
@@ -681,7 +674,6 @@
                     //값 셋팅
                     var objParams = {
                             id         : $("#board_id").val(),    
-                            password : $("#password").val()
                     };
                                         
                     //ajax 호출
@@ -725,9 +717,11 @@
     </style>
     <body>
         <input type="hidden" id="board_id" name="board_id" value="${boardView.id}" />
+        <input type="hidden" id="board_writer" name="board_writer" value="${boardView.writer}" />
+        <input type="hidden" id="session_id" name="session_id" value="${LOGIN.username}" />
         <div align="center">
             </br>
-            </br>4
+            </br>
                <table border="1" width="1200px" >
                    <tr> 
                       <td colspan="2" align="right">
@@ -735,7 +729,7 @@
                            <button id="modify" name="modify">글 수정</button>
                            <button id="delete" name="delete">글 삭제</button>
                        </td>
-                   </tr>3
+                   </tr>
                    <tr>
                        <td width="900px">
                         제목: ${boardView.subject}
@@ -763,9 +757,11 @@
                         <td width="100px">
                             ${replyList.reply_writer}
                         </td>
-                        <td width="100px">
+                        <!-- 
+                            <td width="100px">
                             <input type="password" id="reply_password_${replyList.reply_id}" style="width:100px;" maxlength="10" placeholder="패스워드"/>
                         </td>
+                         -->
                         <td align="center">
                             <c:if test="${replyList.depth != '1'}">
                                 <button name="reply_reply" parent_id = "${replyList.reply_id}" reply_id = "${replyList.reply_id}">댓글</button><!-- 첫 댓글에만 댓글이 추가 대댓글 불가 -->
@@ -779,8 +775,7 @@
                <table border="1" width="1200px" bordercolor="#46AA46">
                    <tr>
                        <td width="500px">
-                        이름: <input type="text" id="reply_writer" name="reply_writer" style="width:170px;" maxlength="10" placeholder="작성자"/>
-                        패스워드: <input type="password" id="reply_password" name="reply_password" style="width:170px;" maxlength="10" placeholder="패스워드"/>
+                        이름 :<input id="reply_writer" name="reply_writer" style="width:170px;" maxlength="10"  value="${LOGIN.username}" readonly>
                         <button id="reply_save" name="reply_save">댓글 등록</button>
                     </td>
                    </tr>

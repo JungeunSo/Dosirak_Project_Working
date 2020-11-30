@@ -21,9 +21,13 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public int regContent(Map<String, Object> paramMap) {
         //아이디가 없으면 입력
-        if(paramMap.get("id")==null) {
+        if(paramMap.get("id") == null) 
+        {
             return boardDao.regContent(paramMap);
-        }else {//아이디가 있으면 수정
+        }
+        
+        else 
+        {//아이디가 있으면 수정
             return boardDao.modifyContent(paramMap);
         }
     }

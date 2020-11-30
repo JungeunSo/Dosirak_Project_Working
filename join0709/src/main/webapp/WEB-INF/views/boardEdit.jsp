@@ -46,11 +46,6 @@
                         return false;
                     }
                     
-                    if($("#password").val().trim() == ""){
-                        alert("비밀번호를 입력하세요.");
-                        $("#password").focus();
-                        return false;
-                    }
 
                    
                     //값 셋팅
@@ -60,7 +55,6 @@
                             </c:if>
                             subject     : $("#subject").val(),
                             writer      : $("#writer").val(),
-                            password    : $("#password").val(),
                             content     : content
                     };
 
@@ -102,7 +96,7 @@
                 <tr>
                     <td>
                         제목: <input type="text" id="subject" name="subject" style="width:600px;" placeholder="제목" value="${boardView.subject}"/>
-                         <!--  -->작성한 사람:<input class="form-control" id="writer" name="writer" value="${login.userId}" readonly>
+                        작성한 사람:<input class="form-control" id="writer" name="writer" value="${LOGIN.username}" readonly>
                         <!-- 비밀번호: <input type="password" id="password" name="password" style="width:170px;" maxlength="10" placeholder="패스워드"/> -->
                         <button id="save" name="save">저장</button>                           
                     </td>
