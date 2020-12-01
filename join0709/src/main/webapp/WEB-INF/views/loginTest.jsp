@@ -67,6 +67,9 @@ $(".login-form").validate({
 	         <div class="input-field col s12">
 	           <a href="board/list" class="btn waves-effect waves-light col s12 light-blue darken-4">게시판</a>
 	         </div>
+             <div class="input-field col s12">
+	            <a href="diet/" class="btn waves-effect waves-light col s12 light-blue darken-4">식단</a>
+	          </div>
 	       </div>
         </form>
         

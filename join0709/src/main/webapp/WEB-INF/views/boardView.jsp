@@ -54,18 +54,19 @@
                     
                     //ajax 호출
                     $.ajax({
-                        url            :    "reply/save",
+                        url         :    "reply/save",
                         dataType    :    "json",
                         contentType :    "application/x-www-form-urlencoded; charset=UTF-8",
-                        type         :    "post",
-                        async        :     false, //동기: false, 비동기: ture
+                        type        :    "post",
+                        async       :     false, //동기: false, 비동기: ture
                         data        :    objParams,
                         success     :    function(retVal){
  
                             if(retVal.code != "OK") {
                                 alert(retVal.message);
                                 return false;
-                            }else{
+                            }
+                            else {
                                 reply_id = retVal.reply_id;
                             }
                             
@@ -85,9 +86,6 @@
                         '    <td width="100px">'+
                         $("#reply_writer").val()+
                         '    </td>'+
-                        '    <td width="100px">'+
-                        '        <input type="password" id="reply_password_'+reply_id+'" style="width:100px;" maxlength="10" placeholder="패스워드"/>'+
-                        '    </td>'+
                         '    <td align="center">'+
                         '       <button name="reply_reply" reply_id = "'+reply_id+'">댓글</button>'+
                         '       <button name="reply_modify" r_type = "main" parent_id = "0" reply_id = "'+reply_id+'">수정</button>      '+
@@ -98,13 +96,12 @@
               		// #reply_area 선언 해줬는데 왜 여기서 안 쓰고 있는거지?              
                      if($('#reply_area').contents().size()==0){ // size가 없으면 reply_area 마지막에 요소 추가 
                          $('#reply_area').append(reply);
-                     }else{
+                     }
+                     else{
                          $('#reply_area tr:last').after(reply); // reply_area 에 존재하는 마지막 tr만을 선택한다. 선택하고... 그 뒤에 reply 를 추가한다. 
                      } // 댓글과 대댓글 차이인강?
  
                     //댓글 초기화
-                    $("#reply_writer").val("");
-                    $("#reply_password").val("");
                     $("#reply_content").val("");
                     
                 });
@@ -117,29 +114,37 @@
                     var check = false;
                     var reply_id = $(this).attr("reply_id");	
                     var r_type = $(this).attr("r_type");
-                    var reply_password = "reply_password_"+reply_id; // 아래에서 id 입력받을 때 passowrd_id 로 지정해둠
-                    
-                    if($("#"+reply_password).val().trim() == ""){ // 널값체크
-                        alert("패스워드을 입력하세요.");
-                        $("#"+reply_password).focus();
+                    var session_id = $("#session_id").val();
+                    var txt_reply_writer = $(this).parent().prev().html().trim(); //댓글작성자 가져오기
+                   
+                    if(session_id != txt_reply_writer){
+                        alert("작성자가 다릅니다.");                        
                         return false;
                     }
+                    
+
+                   if(confirm("삭제하시겠습니까?") == true){
+                       alert("삭제되었습니다.");
+                   }
+                   else{    	   
+                       return false;
+                   }
+
                     
                     //패스워드와 아이디를 넘겨 삭제를 한다.
                     //값 셋팅
                     var objParams = {
-                            reply_password    : $("#"+reply_password).val(),
                             reply_id        : reply_id,
                             r_type            : r_type
                     };
                     
                     //ajax 호출
                     $.ajax({
-                        url            :    "reply/del",
+                        url         :    "reply/del",
                         dataType    :    "json",
                         contentType :    "application/x-www-form-urlencoded; charset=UTF-8",
-                        type         :    "post",
-                        async        :     false, //동기: false, 비동기: ture
+                        type        :    "post",
+                        async       :     false, //동기: false, 비동기: ture
                         data        :    objParams,
                         success     :    function(retVal){
  
@@ -184,11 +189,12 @@
                     var reply_id = $(this).attr("reply_id");
                     var parent_id = $(this).attr("parent_id");
                     var r_type = $(this).attr("r_type");
-                    var session_id = $("#session_id").val();
-                    var reply_writer = $("#reply_writer").val();
-               
-                   
-                    if(session_id != reply_writer){
+                    var session_id = $("#session_id").val(); // 세션 내용 가져오기
+                    var txt_reply_writer = $(this).parent().prev().html().trim(); //댓글작성자 가져오기
+                    var txt_reply_content = $(this).parent().prev().prev().html().trim(); // 댓글 내용 가져오기
+
+                    
+                    if(session_id != txt_reply_writer){
                         alert("작성자가 다릅니다.");                        
                         return false;
                     }
@@ -212,7 +218,8 @@
                             if(retVal.code != "OK") {
                                 check = false;//패스워드가 맞으면 체크값을 true로 변경
                                 alert(retVal.message);
-                            }else{
+                            }
+                            else{
                                 check = true;
                             }
                              
@@ -236,11 +243,6 @@
                         //자기 위에 댓글 수정창 입력하고 기존값을 채우고 자기 자신 삭제
 						//댓글내용 가져오기
 
-                        var txt_reply_content = $(this).parent().prev().prev().prev().html().trim();
-                        
-                        //var logtest = $(this).parent();
-                        //console.log(logtest);
-
                         
                         console.log("aaaaaqaqaaaaa");
                         
@@ -248,7 +250,6 @@
                             txt_reply_content = txt_reply_content.replace("→ ","");//대댓글의 뎁스표시(화살표) 없애기
                         }
                         
-                        var txt_reply_writer = $(this).parent().prev().prev().html().trim(); //댓글작성자 가져오기
                         
                         //입력받는 창 등록
                         var replyEditor = 
@@ -258,9 +259,6 @@
                            '   </td>'+
                            '   <td width="100px">'+
                            '       <input type="text" name="reply_modify_writer_'+reply_id+'" id="reply_modify_writer_'+reply_id+'" style="width:100%;" maxlength="10" placeholder="작성자" value="'+txt_reply_writer+'"/>'+ //기존 작성자 넣기
-                           '   </td>'+
-                           '   <td width="100px">'+
-                           '       <input type="password" name="reply_modify_password_'+reply_id+'" id="reply_modify_password_'+reply_id+'" style="width:100%;" maxlength="10" placeholder="패스워드"/>'+
                            '   </td>'+
                            '   <td align="center">'+
                            '       <button name="reply_modify_save" r_type = "'+r_type+'" parent_id="'+parent_id+'" reply_id="'+reply_id+'">등록</button>'+
@@ -297,16 +295,14 @@
                             '   <td width="100px">'+
                             r_writer+
                             '   </td>'+
-                            '   <td width="100px">'+
-                            '       <input type="password" id="reply_password_'+reply_id+'" style="width:100px;" maxlength="10" placeholder="패스워드"/>'+
-                            '   </td>'+
                             '   <td align="center">'+
                             '       <button name="reply_reply" reply_id = "'+reply_id+'">댓글</button>'+
                             '       <button name="reply_modify" r_type = "main" parent_id="0" reply_id = "'+reply_id+'">수정</button>      '+
                             '       <button name="reply_del" reply_id = "'+reply_id+'">삭제</button>      '+
                             '   </td>'+
                             '</tr>';
-                    }else{
+                    }
+                    else{
                         reply = 
                             '<tr reply_type="sub">'+
                             '   <td width="820px"> → '+
@@ -314,9 +310,6 @@
                             '   </td>'+
                             '   <td width="100px">'+
                             r_writer+
-                            '   </td>'+
-                            '   <td width="100px">'+
-                            '       <input type="password" id="reply_password_'+reply_id+'" style="width:100px;" maxlength="10" placeholder="패스워드"/>'+
                             '   </td>'+
                             '   <td align="center">'+
                             '       <button name="reply_modify" r_type = "sub" parent_id="'+parent_id+'" reply_id = "'+reply_id+'">수정</button>'+
@@ -413,9 +406,6 @@
                             '   <td width="100px">'+
                             $("#reply_modify_writer_"+reply_id).val()+
                             '   </td>'+
-                            '   <td width="100px">'+
-                            '       <input type="password" id="reply_password_'+reply_id+'" style="width:100px;" maxlength="10" placeholder="패스워드"/>'+
-                            '   </td>'+
                             '   <td align="center">'+
                             '       <button name="reply_reply" reply_id = "'+reply_id+'">댓글</button>'+
                             '       <button name="reply_modify" r_type = "main" parent_id = "0" reply_id = "'+reply_id+'">수정</button>      '+
@@ -432,9 +422,6 @@
                             '   </td>'+
                             '   <td width="100px">'+
                             $("#reply_modify_writer_"+reply_id).val()+
-                            '   </td>'+
-                            '   <td width="100px">'+
-                            '       <input type="password" id="reply_password_'+reply_id+'" style="width:100px;" maxlength="10" placeholder="패스워드"/>'+
                             '   </td>'+
                             '   <td align="center">'+
                             '       <button name="reply_modify" r_type = "sub" parent_id = "'+parent_id+'" reply_id = "'+reply_id+'">수정</button>'+
@@ -480,9 +467,6 @@
                         '    <td width="100px">'+
                         ' 		 <input id="reply_reply_writer" name="reply_reply_writer" style="width:100%;" maxlength="10"  value="${LOGIN.username}" readonly />' +
                         '    </td>'+
-                        '    <td width="100px">'+
-                        '        <input type="password" name="reply_reply_password" style="width:100%;" maxlength="10" placeholder="패스워드"/>'+
-                        '    </td>'+
                         '    <td align="center">'+
                         '        <button name="reply_reply_save" parent_id="'+reply_id+'">등록</button>'+
                         '        <button name="reply_reply_cancel">취소</button>'+
@@ -517,9 +501,10 @@
                 });
                 
                 //대댓글 등록
+
                 $(document).on("click","button[name='reply_reply_save']",function(){
-                                        
-                    var reply_reply_writer = $("session_id");
+                                       
+                    var reply_reply_writer = $("#session_id").val();
                     var reply_reply_content = $("textarea[name='reply_reply_content']");
                     var reply_reply_content_val = reply_reply_content.val().replace("\n", "<br>"); //개행처리
                     
@@ -548,14 +533,15 @@
                     
                     var reply_id;
                     var parent_id;
+                    console.log(reply_reply_writer);
                     
                     //ajax 호출
                     $.ajax({
-                        url            :    "reply/save",
+                        url         :    "reply/save",
                         dataType    :    "json",
                         contentType :    "application/x-www-form-urlencoded; charset=UTF-8",
-                        type         :    "post",
-                        async        :     false, //동기: false, 비동기: ture
+                        type        :    "post",
+                        async       :     false, //동기: false, 비동기: ture
                         data        :    objParams,
                         success     :    function(retVal){
                         	
@@ -581,9 +567,6 @@
                         '    </td>'+
                         '    <td width="100px">'+
                         reply_reply_writer +
-                        '    </td>'+
-                        '    <td width="100px">'+
-                        '        <input type="password" id="reply_password_'+reply_id+'" style="width:100px;" maxlength="10" placeholder="패스워드"/>'+
                         '    </td>'+
                         '    <td align="center">'+
                         '       <button name="reply_modify" r_type = "sub" parent_id = "'+parent_id+'" reply_id = "'+reply_id+'">수정</button>'+
@@ -632,11 +615,11 @@
                                         
                     //ajax 호출
                     $.ajax({
-                        url            :    "check",
+                        url         :    "check",
                         dataType    :    "json",
                         contentType :    "application/x-www-form-urlencoded; charset=UTF-8",
-                        type         :    "post",
-                        async        :     false, //동기: false, 비동기: ture
+                        type        :    "post",
+                        async       :     false, //동기: false, 비동기: ture
                         data        :    objParams,
                         success     :    
                         	
@@ -678,11 +661,11 @@
                                         
                     //ajax 호출
                     $.ajax({
-                        url            :    "del",
+                        url         :    "del",
                         dataType    :    "json",
                         contentType :    "application/x-www-form-urlencoded; charset=UTF-8",
-                        type         :    "post",
-                        async        :     false, //동기: false, 비동기: ture
+                        type        :    "post",
+                        async       :     false, //동기: false, 비동기: ture
                         data        :    objParams,
                         success     :    function(retVal){
  
@@ -725,7 +708,6 @@
                <table border="1" width="1200px" >
                    <tr> 
                       <td colspan="2" align="right">
-                           <input type="password" id="password" name="password" style="width:200px;" maxlength="10" placeholder="패스워드"/>
                            <button id="modify" name="modify">글 수정</button>
                            <button id="delete" name="delete">글 삭제</button>
                        </td>
@@ -757,11 +739,6 @@
                         <td width="100px">
                             ${replyList.reply_writer}
                         </td>
-                        <!-- 
-                            <td width="100px">
-                            <input type="password" id="reply_password_${replyList.reply_id}" style="width:100px;" maxlength="10" placeholder="패스워드"/>
-                        </td>
-                         -->
                         <td align="center">
                             <c:if test="${replyList.depth != '1'}">
                                 <button name="reply_reply" parent_id = "${replyList.reply_id}" reply_id = "${replyList.reply_id}">댓글</button><!-- 첫 댓글에만 댓글이 추가 대댓글 불가 -->

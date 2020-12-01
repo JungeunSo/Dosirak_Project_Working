@@ -144,15 +144,13 @@ public class BoardController {
 	    //AJAX 호출 (게시글 등록, 수정)
 	    @RequestMapping(value="save", method=RequestMethod.POST)
 	    @ResponseBody
-	    public Object boardSave(@RequestParam Map<String, Object> paramMap) {
-	 
+	    public Object boardSave(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, Model model) {
+	    	
+	    	HttpSession httpSession = request.getSession();
+	    	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));
+	    	
 	        //리턴값
 	        Map<String, Object> retVal = new HashMap<String, Object>();
-	 
-	        //패스워드 암호화
-//	        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-//	        String password = encoder.encodePassword(paramMap.get("password").toString(), null);
-//	        paramMap.put("password", password);
 	 
 	        //정보입력
 	        int result = boardService.regContent(paramMap);
@@ -180,8 +178,11 @@ public class BoardController {
 	    //AJAX 호출 (게시글 삭제)
 	    @RequestMapping(value="del", method=RequestMethod.POST)
 	    @ResponseBody
-	    public Object boardDel(@RequestParam Map<String, Object> paramMap) {
+	    public Object boardDel(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, Model model) {
 	 
+	    	HttpSession httpSession = request.getSession();
+	    	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));
+	    	
 	        //리턴값
 	        Map<String, Object> retVal = new HashMap<String, Object>();
 	 
@@ -203,7 +204,10 @@ public class BoardController {
 	    //AJAX 호출 (게시글 패스워드 확인)
 	    @RequestMapping(value="check", method=RequestMethod.POST)
 	    @ResponseBody
-	    public Object boardCheck(@RequestParam Map<String, Object> paramMap) {
+	    public Object boardCheck(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, Model model) {
+	    	
+	    	HttpSession httpSession = request.getSession();
+	    	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));
 	 
 	        //리턴값
 	        Map<String, Object> retVal = new HashMap<String, Object>();
@@ -231,20 +235,18 @@ public class BoardController {
 	    //AJAX 호출 (댓글 등록)
 	    @RequestMapping(value="reply/save", method=RequestMethod.POST)
 	    @ResponseBody
-	    public Object boardReplySave(@RequestParam Map<String, Object> paramMap) {
+	    public Object boardReplySave(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, Model model) {
 	 
+	    	HttpSession httpSession = request.getSession();
+	    	model.addAttribute("LOGIN", httpSession.getAttribute("LOGIN"));
+	    	
 	        //리턴값
 	        Map<String, Object> retVal = new HashMap<String, Object>();
-	 
-//	        //패스워드 암호화
-//	        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-//	        String password = encoder.encodePassword(paramMap.get("reply_password").toString(), null);
-//	        paramMap.put("reply_password", password);
 	 
 	        //정보입력
 	        int result = boardService.regReply(paramMap);
 	 
-	        if(result>0){
+	        if(result>0) {
 	            retVal.put("code", "OK");
 	            retVal.put("reply_id", paramMap.get("reply_id"));
 	            retVal.put("parent_id", paramMap.get("parent_id"));
@@ -255,21 +257,20 @@ public class BoardController {
 	        }
 	 
 	        return retVal;
-	 
 	    }
 	 
 	    //AJAX 호출 (댓글 삭제)
 	    @RequestMapping(value="reply/del", method=RequestMethod.POST)
 	    @ResponseBody
-	    public Object boardReplyDel(@RequestParam Map<String, Object> paramMap) {
+	    public Object boardReplyDel(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, Model model) {
+	    	
+	    	HttpSession httpSession = request.getSession();
+	    	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));
+	    	
 	 
 	        //리턴값
 	        Map<String, Object> retVal = new HashMap<String, Object>();
-	 
-	        //패스워드 암호화
-	        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-	        String password = encoder.encodePassword(paramMap.get("reply_password").toString(), null);
-	        paramMap.put("reply_password", password);
+
 	 
 	        //정보입력
 	        int result = boardService.delReply(paramMap);
@@ -288,8 +289,11 @@ public class BoardController {
 	    //AJAX 호출 (댓글 패스워드 확인)
 	    @RequestMapping(value="reply/check", method=RequestMethod.POST)
 	    @ResponseBody
-	    public Object boardReplyCheck(@RequestParam Map<String, Object> paramMap) {
+	    public Object boardReplyCheck(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, Model model) {
 	 
+	    	HttpSession httpSession = request.getSession();
+	    	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));
+	    	
 	        //리턴값
 	        Map<String, Object> retVal = new HashMap<String, Object>();
 	 
@@ -313,8 +317,11 @@ public class BoardController {
 	    //AJAX 호출 (댓글 수정)
 	    @RequestMapping(value="reply/update", method=RequestMethod.POST)
 	    @ResponseBody
-	    public Object boardReplyUpdate(@RequestParam Map<String, Object> paramMap) {
+	    public Object boardReplyUpdate(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, Model model) {
 	 
+	    	HttpSession httpSession = request.getSession();
+	    	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));
+	    	
 	        //리턴값
 	        Map<String, Object> retVal = new HashMap<String, Object>();
 	 
