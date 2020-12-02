@@ -79,12 +79,20 @@
                      
                 });
 
-                //세션 주고받아서 로그인 된 사람만 글 쓰게 하기
-                
                  
                 $("#write").click(function(){
                     location.href = "edit";
                 });
+
+                
+                //세션 메인 페이지
+                
+                $("#main").click(function(){
+                    
+                   location.href = "/";
+                });
+                
+                
                                  
                 $(document).on("click","button[name='page_move']",function(){
                      
@@ -123,11 +131,13 @@
         <form class="form-inline" id="frmSearch" action="list">
             <input type="hidden" id="startPage" name="startPage" value=""><!-- 페이징을 위한 hidden타입 추가 -->
             <input type="hidden" id="visiblePages" name="visiblePages" value=""><!-- 페이징을 위한 hidden타입 추가 -->
+            <input type="hidden" id="session_id" name="session_id" value="${LOGIN.username}" />
             <div align="center">
                 <table width="1200px">
                     <tr>
                         <td align="right">
                             <button type="button" id="write" name="write">글 작성</button>
+                            <button type="button" id="main" name="main">메인</button>
                         </td>
                     </tr>
                 </table>

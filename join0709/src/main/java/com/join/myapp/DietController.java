@@ -21,9 +21,10 @@ import com.join.service.UserService;
 @Controller
 @RequestMapping("/diet/*")
 public class DietController {
-
+	
 	 @Inject
 	 UserService userService;
+	 @Inject
 	 DietService dietService;
 	 
     @RequestMapping(value = "/")
@@ -31,15 +32,27 @@ public class DietController {
  
     	HttpSession httpSession = request.getSession();
     	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));
+ 	
     	return "daily";
     }
     
+    @RequestMapping(value = "caloryView")
+    public String caloryView(@RequestParam Map<String, Object> paramMap, Model model, HttpServletRequest request) {
+ 
+    	HttpSession httpSession = request.getSession();
+    	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));
+    	model.addAttribute("Food", dietService.getFoodCalory(paramMap));
+    	
+    	
+    	return "caloryView";
+    }
     
-    //AJAX 호출 (게시글 등록, 수정)
+    
+    //AJAX 호출 (일간 식단 입력)
     @RequestMapping(value="dailySave", method=RequestMethod.POST)
     @ResponseBody
     public Object boardSave(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, Model model) {
-    	
+
     	HttpSession httpSession = request.getSession();
     	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));
     	

@@ -14,15 +14,40 @@
     <script type = "text/javascript">
     
     $(document).ready(function(){
+    	
+        $("#main").click(function(){
+            
+            location.href = "/";
+         });
 
     	// 합 구하기
     	$("#sum").click(function(){
     		
-    		var breakfast = parseInt($("#breakfast").val());
-    		var lunch = parseInt($("#lunch").val());
-    		var dinner = parseInt($("#dinner").val());
+    		var breakfast = $("#breakfast").val();
+    		var lunch = $("#lunch").val();
+    		var dinner = $("#dinner").val();
+    		
+    		if (breakfast == "") {
+   					breakfast = "0";
+   					$("#breakfast").val(0);
+    		}
+    		
+    		if (lunch == "") {
+					lunch = "0";
+					$("#lunch").val(0);
+			}
+    		
+    		if (dinner == "") {
+					dinner = "0";
+					$("#dinner").val(0);
+			}
+    		
+    		breakfast = parseInt(breakfast);
+    		lunch = parseInt(lunch);
+    		dinner = parseInt(dinner);
     		var sumResult = breakfast + lunch + dinner;
     		console.log(sumResult);
+    		
     		$("#sumResult").val(sumResult);
 
     	});
@@ -30,6 +55,15 @@
 
     	
     	$("#submit").click(function(){
+    		
+    		if($("#sumResult").val() == "") {
+    			alert("합산을 눌러주세요.");
+    			false;
+    		}
+
+    		var breakfast_food = $("#breakfast_food").val();
+    		var lunch_food = $("#lunch_food").val();
+    		var dinner_food = $("#dinner_food").val();
     		
     		var breakfast = parseInt($("#breakfast").val());
     		var lunch = parseInt($("#lunch").val());
@@ -42,6 +76,9 @@
             		breakfast : breakfast,
             		lunch : lunch,
             		dinner : dinner,
+            		breakfast_food : breakfast_food,
+            		lunch_food : lunch_food,
+            		dinner_food : dinner_food,
             		day : sumResult
             };
             
@@ -50,19 +87,18 @@
             $.ajax({
                 url         :   "dailySave",
                 dataType    :   "json",
-                contentType :   "application/x-www-form-urlencoded; charset=UTF-8",
                 type        :   "post",
                 data        :   objParams,
-                success     :   function(retVal){
+                success     :   function(retVal) {
 
                     if(retVal.code == "OK") {
                         alert(retVal.message);
-                        location.href = "/";  
                     } else {
                         alert(retVal.message);
                     }
                      
                 },
+                
                 error :   function(request, status, error){
                     console.log("AJAX_ERROR");
                 }
@@ -143,7 +179,8 @@
 	        <p>Date: <input type="text" id="datepicker"></p>
 	      </div>
 	        <div class="col-xs-5">
-	          <button type="button" class="btn btn-primary text-nowrap" href="#" >이동</button>
+	          <button type="button" class="btn btn-primary text-nowrap">이동</button>
+	          <button type="button" id = "main" name ="main" class="btn btn-primary text-nowrap">메인</button>
 	        </div>
 	    </div>
 	</div>
@@ -163,20 +200,25 @@
 	  <div class="input-group mb-3">
 	    <div class="input-group-prepend">
 	      <button class="btn btn-outline-secondary" type="button" id="button-addon1">아침</button>
+   	      <input type="text" class="form-control" placeholder="아침 메뉴" id="breakfast_food" name="breakfast_food"/>
    	      <input type="text" class="form-control" placeholder="아침 칼로리" id="breakfast" name="breakfast"/>
 	    </div>
 	  </div>
+	  <br>
   
 	  <div class="input-group mb-3">
 	    <div class="input-group-append">
 	      <button class="btn btn-outline-secondary" type="button" id="button-addon2">점심</button>
+   	      <input type="text" class="form-control" placeholder="점심 메뉴" id="lunch_food" name="lunch_food"/>
    	      <input type="text" class="form-control" placeholder="점심 칼로리" id="lunch" name="lunch"/>
 	    </div>
 	  </div>
+	  <br>
   
 	  <div class="input-group mb-3">
 	    <div class="input-group-prepend" id="button-addon3">
 	      <button class="btn btn-outline-secondary" type="button">저녁</button>
+   	      <input type="text" class="form-control" placeholder="저녁 메뉴" id="dinner_food" name="dinner_food"/>
    	      <input type="text" class="form-control" placeholder="저녁 칼로리" id="dinner" name="dinner"/>
 	    </div>
 	  </div>

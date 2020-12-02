@@ -43,10 +43,30 @@ public class HomeController {
 		
     	logger.info("Welcome home! The client locale is {}.", locale);
 		System.out.println(httpSession.getAttribute("LOGIN"));
+	
+		if(httpSession.getAttribute("LOGIN") != null)
+		{
+			return "/mainView_login";
+		}
+		
+		else
+		{
+			return "mainView";
+		}
+	}
+
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(Locale locale, Model model, HttpServletRequest request) {
+		
+    	HttpSession httpSession = request.getSession();
+		
+    	logger.info("Welcome home! The client locale is {}.", locale);
+		System.out.println(httpSession.getAttribute("LOGIN"));
 		
 		if(httpSession.getAttribute("LOGIN") != null)
 		{
-			return "loginTest";
+			return "/";
 		}
 		
 		else
@@ -54,6 +74,31 @@ public class HomeController {
 			return "login";
 		}
 	}
+	
+	@RequestMapping(value = "/mainView_login", method = RequestMethod.POST)
+	public String mainView_login(UserVO uv, Locale locale, Model model, HttpServletRequest request) throws Exception {
+		
+		HttpSession httpSession = request.getSession();
+		
+		System.out.println(uv.getUsername());
+		System.out.println(uv.getPassword());
+		System.out.println(uv.getEmail());
+		
+		if(us.loginCheck(uv) == 0) {
+			System.out.println("올바른 이름과 암호가 아닙니다.");
+			return "login";
+		}
+		
+		else
+			httpSession.setAttribute("LOGIN", uv);
+		 	model.addAttribute("LOGIN", httpSession.getAttribute("LOGIN"));
+			System.out.println("환영합니다.");
+			
+		return "/mainView_login";
+
+	}
+	
+
 	 
 	@RequestMapping(value = "/emailCheck", method = RequestMethod.POST)
 	@ResponseBody
@@ -123,19 +168,16 @@ public class HomeController {
 		 	model.addAttribute("LOGIN", httpSession.getAttribute("LOGIN"));
 			System.out.println("환영합니다.");
 			
-		return "loginTest";
+		return "/mainView_login";
 	}
 	
-	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	@RequestMapping(value = "/logout",  method = RequestMethod.GET)
 	public String logout(UserVO uv, HttpServletRequest request, Model model) throws Exception
 	{
 		HttpSession httpSession = request.getSession();
-		
-
 		httpSession.invalidate();
-		System.out.println("로그아웃 되었습니다.");
-		
-		return "login";
+		System.out.println("로그아웃 되었습니다.");		
+		return "mainView";
 	}
 	
 	

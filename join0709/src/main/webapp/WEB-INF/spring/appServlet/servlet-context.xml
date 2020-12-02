@@ -28,6 +28,7 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/board/edit" />
+			<mapping path="/diet" />
 			<beans:bean
 				class="com.join.myapp.LoginInterceptor" />
 		</interceptor>

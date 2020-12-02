@@ -7,8 +7,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.join.dao.DietDAO;
+import com.join.dto.FoodCalory;
+import com.sun.tools.javac.util.List;
 
-@Service("dietService")
+@Service
 public class DietServiceImpl implements DietService {
 	
 	@Resource(name="dietDao")
@@ -17,8 +19,12 @@ public class DietServiceImpl implements DietService {
 	@Override
     public int setCalory(Map<String, Object> paramMap) {
         return dietDao.setCalory(paramMap);
-
     }
+	
+	@Override
+	public List<FoodCalory> getFoodCalory(Map<String, Object> paramMap) {
+		return dietDao.getFoodCalory(paramMap);
+	}
 	
 
 }

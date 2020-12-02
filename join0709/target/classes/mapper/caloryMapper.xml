@@ -17,13 +17,19 @@
             breakfast,
             lunch,
             dinner,
-            day
+            day,
+            breakfast_food,
+            lunch_food,
+            dinner_food
         )values(
         	#{userid},
             #{breakfast},
             #{lunch},
             #{dinner},
-            #{day}
+            #{day},
+            #{breakfast_food},
+            #{lunch_food},
+            #{dinner_food}
         )
 </insert>
 

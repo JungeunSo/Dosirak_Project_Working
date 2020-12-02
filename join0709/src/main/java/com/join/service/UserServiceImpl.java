@@ -8,7 +8,7 @@ import com.join.dao.UserDAO;
 import com.join.dto.UserVO;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 	
 	@Inject
