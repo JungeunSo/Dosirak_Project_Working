@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.join</groupId>
 	<artifactId>myapp</artifactId>
-	<name>join0709</name>
+	<name>dosirak</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>

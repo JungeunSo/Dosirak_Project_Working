@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    
     <link rel="stylesheet" href="resources/css/style.css">
-    <link rel="stylesheet" href=resources/"css/landing-page.min.css">
+    <link rel="stylesheet" href="resources/css/landing-page.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="resources/vendor/boxicons/css/boxicons.min.css">
@@ -47,7 +47,7 @@
 		    </li>
 		    <li><a href="board/list">포럼</a></li>
 		    <li><a href="#aboutus">소개</a></li>
-			<li><a href="/login">로그인</a></li>
+			<li><a href="login">로그인</a></li>
 		    <li><a href="#">회원가입</a></li>
 		  </ul>
 		</nav>

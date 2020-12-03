@@ -7,8 +7,8 @@
 
 	<insert id="insertUser" parameterType="UserVo">
 		insert into
-		user(email,pw,name)
-		values(#{email},#{password},#{username})
+		user(email,pw,name,calory)
+		values(#{email},#{password},#{username},#{usercalory})
 	</insert>
 	
 	<select id="emailCheck" parameterType="UserVo" resultType="int">
@@ -16,7 +16,13 @@
 	</select>
 	
 	<select id="loginCheck" parameterType="UserVo" resultType="int">
-		SELECT COUNT(*) FROM user where name = #{username} and pw = #{password} 
+		SELECT COUNT(*)
+		 FROM user where name = #{username} and pw = #{password} 
+	</select>
+	
+	<select id="setInfo" parameterType="UserVo" resultType="int">
+		select calory
+		 from user where name = #{username}
 	</select>
 
 </mapper>

@@ -85,6 +85,8 @@ public class BoardController {
 	 
 	    	HttpSession httpSession = request.getSession();
 	    	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));
+	    	
+	    	
 	        model.addAttribute("replyList", boardService.getReplyList(paramMap));
 	        model.addAttribute("boardView", boardService.getContentView(paramMap));
 	 

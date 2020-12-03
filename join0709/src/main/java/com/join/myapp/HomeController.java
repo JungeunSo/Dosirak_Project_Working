@@ -2,6 +2,7 @@ package com.join.myapp;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -23,6 +24,7 @@ import com.join.service.UserService;
  * Handles requests for the application home page.
  */
 @Controller
+@RequestMapping("/*")
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -46,7 +48,7 @@ public class HomeController {
 	
 		if(httpSession.getAttribute("LOGIN") != null)
 		{
-			return "/mainView_login";
+			return "mainView_login";
 		}
 		
 		else
@@ -56,7 +58,7 @@ public class HomeController {
 	}
 
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login(Locale locale, Model model, HttpServletRequest request) {
 		
     	HttpSession httpSession = request.getSession();
@@ -75,7 +77,7 @@ public class HomeController {
 		}
 	}
 	
-	@RequestMapping(value = "/mainView_login", method = RequestMethod.POST)
+	@RequestMapping(value = "mainView_login", method = RequestMethod.POST)
 	public String mainView_login(UserVO uv, Locale locale, Model model, HttpServletRequest request) throws Exception {
 		
 		HttpSession httpSession = request.getSession();
@@ -84,23 +86,29 @@ public class HomeController {
 		System.out.println(uv.getPassword());
 		System.out.println(uv.getEmail());
 		
+		uv.setUsercalory(Integer.toString(us.setInfo(uv)));
+		
+		
 		if(us.loginCheck(uv) == 0) {
 			System.out.println("올바른 이름과 암호가 아닙니다.");
 			return "login";
 		}
 		
-		else
+		else {
+			
 			httpSession.setAttribute("LOGIN", uv);
 		 	model.addAttribute("LOGIN", httpSession.getAttribute("LOGIN"));
-			System.out.println("환영합니다.");
 			
-		return "/mainView_login";
-
+		 	System.out.println("환영합니다.");
+			
+		 	return "mainView_login";
+			
+		}
 	}
 	
 
 	 
-	@RequestMapping(value = "/emailCheck", method = RequestMethod.POST)
+	@RequestMapping(value = "emailCheck", method = RequestMethod.POST)
 	@ResponseBody
 	public int postEmailCheck(HttpServletRequest req) throws Exception {
 		 logger.info("post EmailCheck");
@@ -120,13 +128,13 @@ public class HomeController {
 		 return result;
 		}
 	
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	@RequestMapping(value = "register", method = RequestMethod.GET)
 	public String registerView()
 	{
 		return "home";
 	}
 	
-	@RequestMapping(value = "/registerNow", method = RequestMethod.POST)
+	@RequestMapping(value = "registerNow", method = RequestMethod.POST)
 	public String register(UserVO uv) throws Exception
 	{
 		System.out.println(uv.getEmail());
@@ -149,7 +157,9 @@ public class HomeController {
 		return "home"; 
 	}
 	
-	@RequestMapping(value = "/loginCheck", method = RequestMethod.POST)
+	
+	
+	@RequestMapping(value = "loginCheck", method = RequestMethod.POST)
 	public String loginCheck(UserVO uv, HttpServletRequest request, Model model) throws Exception
 	{
 		HttpSession httpSession = request.getSession();
@@ -163,20 +173,27 @@ public class HomeController {
 			return "login";
 		}
 		
-		else
+		
+		else {
+			
+
 			httpSession.setAttribute("LOGIN", uv);
 		 	model.addAttribute("LOGIN", httpSession.getAttribute("LOGIN"));
 			System.out.println("환영합니다.");
-			
-		return "/mainView_login";
+			return "mainView_login";
+		}
 	}
 	
-	@RequestMapping(value = "/logout",  method = RequestMethod.GET)
+	
+	
+	
+	@RequestMapping(value = "logout",  method = RequestMethod.GET)
 	public String logout(UserVO uv, HttpServletRequest request, Model model) throws Exception
 	{
 		HttpSession httpSession = request.getSession();
 		httpSession.invalidate();
-		System.out.println("로그아웃 되었습니다.");		
+		System.out.println("로그아웃 되었습니다.");
+		
 		return "mainView";
 	}
 	

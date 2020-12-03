@@ -17,7 +17,7 @@
     	
         $("#main").click(function(){
             
-            location.href = "/";
+            location.href = "/dosirak";
          });
 
     	// 합 구하기
@@ -160,11 +160,15 @@
         });
         
     });
-    
-    
-
-
     </script>
+    
+    <style>
+    
+    	.text {
+    		text-align: center;
+    	}
+    
+    </style>
   </head>
   
   <title>Document</title>
@@ -186,13 +190,18 @@
 	</div>
 	</section>
 	
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
+	<br><br><br>
+	
+	<div >
+	</div>
+
+	<div class="text">
+		${LOGIN.username}님, 오늘은 얼마나 드셨나요? <br>
+		목표 칼로리: ${LOGIN.usercalory} <br>
+		오늘 먹은 칼로리: 
+	</div>
+	
+	<br><br><br><br>
 	
 	<br>
 	<section id="menu">

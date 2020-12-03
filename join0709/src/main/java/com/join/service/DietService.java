@@ -8,8 +8,9 @@ import com.sun.tools.javac.util.List;
 public interface DietService {
 	
 //	List<FoodCalory> getFoodCalory(Map<String, Object> paramMap) throws Exception;
-	int setCalory(Map<String, Object> paramMap);
+	int setCalory(Map<String, Object> paramMap) throws Exception;
 	
-	List<FoodCalory> getFoodCalory(Map<String, Object> paramMap);
+	
+	List<FoodCalory> getFoodCalory(Map<String, Object> paramMap) throws Exception;
 	
 }

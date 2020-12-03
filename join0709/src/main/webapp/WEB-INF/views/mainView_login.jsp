@@ -16,6 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
+
     <title>도시락 프로젝트</title>
 </head>
 
@@ -38,7 +39,7 @@
 		    </li>
 		    <li><a href="board/list">포럼</a></li>
 		    <li><a href="#aboutus">소개</a></li>
-		    <li><a href="/logout">로그아웃</a></li>
+		    <li><a href="logout">로그아웃</a></li>
 		    <li><a href="#">회원가입</a></li>
 		  </ul>
 		</nav>

@@ -5,13 +5,13 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import com.join.dto.UserVO;
+import java.util.List;
 
 @Repository
 public class UserDAOImpl implements UserDAO{
 
 	@Inject
 	private SqlSession sqlSession;
-	
 	private static final String Namespace = "com.join.mapper.userMapper";
 	
 	
@@ -31,6 +31,13 @@ public class UserDAOImpl implements UserDAO{
 	public int loginCheck(UserVO userVO)  throws Exception
 	{
 		return sqlSession.selectOne(Namespace+".loginCheck", userVO);
+	}
+	
+	@Override
+	public int setInfo(UserVO userVO) throws Exception  
+	
+	{	
+		return sqlSession.selectOne(Namespace+".setInfo", userVO);
 	}
 	
 }

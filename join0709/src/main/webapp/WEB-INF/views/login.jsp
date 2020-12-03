@@ -12,8 +12,7 @@
 
 
 $(document).ready(function(){
-	
-	
+
 	$(".login-form").validate({
 	  rules: {
 	    username: {
@@ -91,7 +90,7 @@ $(document).ready(function(){
         
         <div class="row">
           <div class="input-field col s12">
-            <button type="submit" class="btn waves-effect waves-light col s12">Login</button>
+            <button id="login" name="login" class="btn waves-effect waves-light col s12">Login</button>
           </div>
           <div class="input-field col s12">
             <a href="board/list" class="btn waves-effect waves-light col s12 light-blue darken-4">게시판</a>

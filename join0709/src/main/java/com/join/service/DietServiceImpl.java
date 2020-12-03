@@ -17,12 +17,12 @@ public class DietServiceImpl implements DietService {
 	private DietDAO dietDao;
 	
 	@Override
-    public int setCalory(Map<String, Object> paramMap) {
+    public int setCalory(Map<String, Object> paramMap) throws Exception {
         return dietDao.setCalory(paramMap);
     }
 	
 	@Override
-	public List<FoodCalory> getFoodCalory(Map<String, Object> paramMap) {
+	public List<FoodCalory> getFoodCalory(Map<String, Object> paramMap) throws Exception {
 		return dietDao.getFoodCalory(paramMap);
 	}
 	

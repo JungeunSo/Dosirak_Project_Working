@@ -20,13 +20,13 @@ public class DietDAOImpl implements DietDAO {
     private static final String Namespace = "com.join.mapper.caloryMapper";
     
     @Override
-    public int setCalory(Map<String, Object> paramMap) {
+    public int setCalory(Map<String, Object> paramMap) throws Exception {
         return sqlSession.insert(Namespace+".insertCalory", paramMap);
     }
     
     @Override
-    public List<FoodCalory> getFoodCalory(Map<String, Object> paramMap) {
+    public List<FoodCalory> getFoodCalory(Map<String, Object> paramMap) throws Exception {
     	return sqlSession.selectOne(Namespace+".selectFoodName", paramMap);
     }
-
+    
 }

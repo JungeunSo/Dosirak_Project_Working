@@ -5,6 +5,9 @@
 <html>
     <head>
         <title>게시판</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
@@ -79,20 +82,12 @@
                      
                 });
 
+                //세션 주고받아서 로그인 된 사람만 글 쓰게 하기
+                
                  
                 $("#write").click(function(){
                     location.href = "edit";
                 });
-
-                
-                //세션 메인 페이지
-                
-                $("#main").click(function(){
-                    
-                   location.href = "/";
-                });
-                
-                
                                  
                 $(document).on("click","button[name='page_move']",function(){
                      
@@ -128,38 +123,40 @@
         </style>
     </head>
     <body>
+    
         <form class="form-inline" id="frmSearch" action="list">
             <input type="hidden" id="startPage" name="startPage" value=""><!-- 페이징을 위한 hidden타입 추가 -->
             <input type="hidden" id="visiblePages" name="visiblePages" value=""><!-- 페이징을 위한 hidden타입 추가 -->
-            <input type="hidden" id="session_id" name="session_id" value="${LOGIN.username}" />
-            <div align="center">
-                <table width="1200px">
+         
+            
+                  <div align="right">
+                            <button type="button" id="write" name="write" class="btn btn-default">글 작성</button>
+                </div>
+                       <br> 
+                        <div align="center" class="table-responsive">
+              <table class="table table-bordered">
+                 <thead>
                     <tr>
-                        <td align="right">
-                            <button type="button" id="write" name="write">글 작성</button>
-                            <button type="button" id="main" name="main">메인</button>
-                        </td>
-                    </tr>
-                </table>
-                <table border="1" width="1200px">
-                    <tr>
-                        <th width="50px">
+                        <th scope="col">
                             No
                         </th>
-                        <th width="850px">
+                        <th scope="col">
                             제목
                         </th>
-                        <th width="100px">
+                        <th scope="col">
                             작성자
                         </th>
-                        <th width="200px">
+                        <th scope="col">
                             작성일
                         </th>
                     </tr>
+                    </thead>
                     <c:choose>
                         <c:when test="${fn:length(boardList) == 0}">
-                            <tr>
-                                <td colspan="4" align="center">
+                        
+                           <tbody> 
+                          <tr>
+                                <td colspan="4" scope="row">
                                     조회결과가 없습니다.
                                 </td>
                             </tr>
@@ -167,16 +164,17 @@
                         <c:otherwise>
                             <c:forEach var="boardList" items="${boardList}" varStatus="status">
                                 <tr>
-                                    <td align="center">${boardList.id}</td>
+                                    <td scope="row">${boardList.id}</td>
                                     <td>
                                         <a name="subject" class="mouseOverHighlight" content_id="${boardList.id}">${boardList.subject}</a>
                                     </td>
-                                    <td align="center">${boardList.writer}</td>
-                                    <td align="center">${boardList.register_datetime}</td>
+                                    <td scope="row">${boardList.writer}</td>
+                                    <td scope="row">${boardList.register_datetime}</td>
                                 </tr>
                             </c:forEach>
                         </c:otherwise> 
                     </c:choose>
+            </tbody>
                 </table>
                 <br>
                 <div id="pagination"></div>
@@ -185,3 +183,5 @@
 
     </body>
 </html>
+
+<!--화이팅~!!-->

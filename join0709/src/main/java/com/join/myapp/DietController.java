@@ -37,13 +37,12 @@ public class DietController {
     }
     
     @RequestMapping(value = "caloryView")
-    public String caloryView(@RequestParam Map<String, Object> paramMap, Model model, HttpServletRequest request) {
+    public String caloryView(@RequestParam Map<String, Object> paramMap, Model model, HttpServletRequest request) throws Exception {
  
     	HttpSession httpSession = request.getSession();
     	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));
     	model.addAttribute("Food", dietService.getFoodCalory(paramMap));
-    	
-    	
+
     	return "caloryView";
     }
     
@@ -51,7 +50,7 @@ public class DietController {
     //AJAX 호출 (일간 식단 입력)
     @RequestMapping(value="dailySave", method=RequestMethod.POST)
     @ResponseBody
-    public Object boardSave(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, Model model) {
+    public Object boardSave(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, Model model) throws Exception {
 
     	HttpSession httpSession = request.getSession();
     	model.addAttribute("LOGIN",httpSession.getAttribute("LOGIN"));

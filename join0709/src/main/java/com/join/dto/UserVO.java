@@ -5,8 +5,15 @@ public class UserVO {
 	String username;
 	String email;
 	String password;
+	String usercalory;
+
 	
-	
+	public String getUsercalory() {
+		return usercalory;
+	}
+	public void setUsercalory(String usercalory) {
+		this.usercalory = usercalory;
+	}
 	public String getUsername() {
 		return username;
 	}
